@@ -2,10 +2,16 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AppNavigator from './app-navigator';
 import AuthNavigator from './auth-navigation';
+import auth from '@react-native-firebase/auth';
 
-const isLoggedIn = true;
 
 export default function Navigator() {
+    const [isLoggedIn, setIsLoggedIn] = React.useState(null);
+
+    auth().onAuthStateChanged(user => {
+        setIsLoggedIn(user);
+    });
+
     return (
         <NavigationContainer>
             {
