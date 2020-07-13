@@ -79,6 +79,8 @@ target 'example' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
   target 'exampleTests' do
     inherit! :complete
     # Pods for testing
