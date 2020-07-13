@@ -1,10 +1,16 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet} from 'react-native';
+import {Button, Text, View, Image, StyleSheet} from 'react-native';
 import global from '../styles/global';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
+import auth from '@react-native-firebase/auth';
 
 function Profile() {
+
+    const logout = () => {
+        auth().signOut().then(() => {console.log('signed out');});
+    };
+
     return (
         <View style={global.container}>
             {/* <View style={styles.profileCard}>
@@ -23,6 +29,7 @@ function Profile() {
                 <Text style={styles.userInfoButton}>Ver mis datos</Text>
                 <MaterialCommunityIcons name="arrow-right" color="#fff" size={20}/>
             </View>
+            <Button title="Logout" onPress={() => {logout();}}/>
         </View>
     );
 }
