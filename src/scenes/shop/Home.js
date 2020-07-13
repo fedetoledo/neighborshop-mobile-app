@@ -1,14 +1,17 @@
-import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React, { useEffect } from 'react';
+import {StyleSheet, View, Text, Image, Button, StatusBar} from 'react-native';
 import global from '../../styles/global';
 import { ScrollView } from 'react-native-gesture-handler';
 import FeatureSlideShow from '../../components/shop/molecules/FeatureSlideShow';
 import CategoryButton from '../../components/shop/atoms/CategoryButton';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 function Home({navigation}) {
 
-    const categories = ['Comida','Regalos','Jardineria','Decoracion','Postres',
-                        'Eduacion','Servicios','Otros'];
+    const [authUser, setAuthUser] = React.useState(auth().currentUser);
+    const [categories, setCategories] = React.useState([]);
 
     const premiumProducts = [
         {
@@ -25,22 +28,44 @@ function Home({navigation}) {
         },
     ];
 
+    async function getCategories() {
+        setCategories([]);
+        await firestore().collection('categories').get()
+            .then(querySnapshot => {
+                console.log('useEffect getCategories');
+                querySnapshot.forEach(doc => {
+                    let cat = {
+                        name: doc.data().name,
+                        imageURL: doc.data().imageURL,
+                    };
+                    setCategories(prevState => [...prevState, cat]);
+                });
+            }).catch(error => {console.error('error', error);});
+    }
+
+    useEffect(() => {
+        getCategories();
+    }, []);
+
     return (
-        <View style={global.container}>
-            <ScrollView>
+        <View on style={global.container}>
+            <StatusBar hidden={false} translucent={true} backgroundColor="#00b0f9" barStyle="light-content" />
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <FeatureSlideShow
                     itemsPerInterval={1}
                     items={premiumProducts}
                 />
+                <Text>Hola, {authUser.displayName}</Text>
                 <Text style={styles.categoriesTitle}>Categorias</Text>
                 <View style={styles.categoriesContainer}>
                     {
                         categories.map((item, key) => {
                             return <CategoryButton
                                         key={key}
-                                        name={item}
+                                        name={item.name}
+                                        picture={item.imageURL}
                                         onPress={() => {
-                                            navigation.navigate('Category', {name:item});
+                                            navigation.navigate('Category', {name:item.name});
                                         }}
                                     />;
                         })
@@ -61,6 +86,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
+    },
+    picture: {
+        width: 100,
+        height: 100,
     },
 });
 

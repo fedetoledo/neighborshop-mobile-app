@@ -1,34 +1,46 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, ImageBackground} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 function CategoryButton(props) {
     return (
         <TouchableOpacity
             onPress={props.onPress}
             style={styles.categoryContainer}>
-            <Text style={styles.categoryTitle}>{props.name}</Text>
+                <ImageBackground style={styles.picture} imageStyle={styles.innerPicture} source={{uri: props.picture}}>
+                    <Text style={styles.categoryTitle}>{props.name}</Text>
+                </ImageBackground>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     categoryContainer: {
-        elevation: 4,
+        elevation: 3,
+        height: 100,
+        width: 170,
+        marginVertical: 5,
+        marginHorizontal: 5,
+        borderRadius: 4,
+        backgroundColor: '#333',
+    },
+    picture: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        height: 100,
-        width: 170,
-        backgroundColor: '#00b0ff',
-        marginVertical: 5,
-        marginHorizontal: 5,
-        padding: 10,
-        borderRadius: 5,
+        width: '100%',
+        height: '100%',
+        borderRadius: 4,
+    },
+    innerPicture: {
+        opacity: 0.4,
     },
     categoryTitle: {
-        fontSize: 18,
-        color: '#fafafa',
+        opacity: 1,
+        margin: 10,
+        fontSize: 20,
+        color: '#fff',
     },
 });
 
