@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     title: {
         height: '100%',
-        backgroundColor: '#2196f3',
+        backgroundColor: '#333',
         flex: 1,
         justifyContent: 'flex-start',
         paddingLeft: 5,

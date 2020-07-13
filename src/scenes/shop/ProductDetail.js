@@ -18,7 +18,7 @@ function ProductDetail({route}) {
                         <Text style={styles.productName}>{product.name}</Text>
                     <View style={styles.belowName}>
                         <Text style={styles.productPrice}>$ {product.price}</Text>
-                        <Rating type="star" fractions={1} ratingCount={5} imageSize={30} />
+                        <Rating tintColor="#eee" style={styles.rating} type="star" fractions={1} ratingCount={5} imageSize={30} />
                     </View>
                 </View>
                 <View style={styles.detailsContainer}>
@@ -55,7 +55,10 @@ const styles = StyleSheet.create({
         color: '#323232',
     },
     detailsContainer: {
-        marginBottom: 10,
+        marginBottom: -10,
+    },
+    rating: {
+        backgroundColor: 'red',
     },
 });
 
