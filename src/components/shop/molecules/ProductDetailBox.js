@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text, Button } from 'react-native';
-import CustomTextInput from '../../general/components/atoms/CustomTextInput';
+import CustomTextInput from '../../general/atoms/CustomTextInput';
 
 function ProductDetailBox(props) {
     return (

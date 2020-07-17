@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
-import {StyleSheet, View, Text, Image, Button, StatusBar} from 'react-native';
+import {StyleSheet, TextInput, View, Text, StatusBar} from 'react-native';
 import global from '../../styles/global';
 import { ScrollView } from 'react-native-gesture-handler';
 import FeatureSlideShow from '../../components/shop/molecules/FeatureSlideShow';
 import CategoryButton from '../../components/shop/atoms/CategoryButton';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
+import SearchButton from '../../components/shop/atoms/SearchButton';
 
 function Home({navigation}) {
 
     const [authUser, setAuthUser] = React.useState(auth().currentUser);
     const [categories, setCategories] = React.useState([]);
+    const [searchQuery, setSearchQuery] = React.useState('');
 
     const premiumProducts = [
         {
@@ -52,6 +53,13 @@ function Home({navigation}) {
         <View on style={global.container}>
             <StatusBar hidden={false} translucent={true} backgroundColor="#00b0f9" barStyle="light-content" />
             <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles.searchBar}>
+                    <TextInput
+                        onChangeText={(text) => {setSearchQuery(text);}}
+                        style={styles.searchInput} placeholder="Encontra lo que buscas "/>
+                    <SearchButton onPress={() => {
+                        navigation.navigate('Category', {name: searchQuery})}} />
+                </View>
                 <FeatureSlideShow
                     itemsPerInterval={1}
                     items={premiumProducts}
@@ -78,6 +86,20 @@ function Home({navigation}) {
 }
 
 const styles = StyleSheet.create({
+    searchBar: {
+        flex: 1,
+        marginBottom: 5,
+        marginHorizontal: 5,
+        elevation: 2,
+        paddingHorizontal: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderRadius: 2,
+        borderColor: '#aaa',
+    },
+    searchInput: {
+    },
     categoriesTitle: {
         marginBottom: 5,
         textAlign: 'center',

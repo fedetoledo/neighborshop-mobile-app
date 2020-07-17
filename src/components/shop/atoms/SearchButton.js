@@ -3,9 +3,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {StyleSheet} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function SearchButton() {
+function SearchButton(props) {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={props.onPress}>
             <MaterialCommunityIcons
                 name="magnify"
                 size={30}

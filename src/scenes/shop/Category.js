@@ -58,6 +58,7 @@ function CategoryDetail({route, navigation}) {
     //Async / Await
     async function getProducts(category) {
         try {
+            console.log('CAT: ', category)
             const productsCall = await fetch('http://192.168.100.11:8000/api/products/?search='+category);
             const productsResponse = await productsCall.json();
                 setProducts(productsResponse);
