@@ -28,9 +28,10 @@ function Home({navigation}) {
         },
     ];
 
-    async function getCategories() {
+    //Promises
+    function getCategories() {
         setCategories([]);
-        await firestore().collection('categories').get()
+        firestore().collection('categories').get()
             .then(querySnapshot => {
                 console.log('useEffect getCategories');
                 querySnapshot.forEach(doc => {

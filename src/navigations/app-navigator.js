@@ -17,6 +17,7 @@ function HomeNavigator() {
     return (
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen}
+            options={{headerShown: false}}
           />
           <Stack.Screen name="Category" component={CategoryScreen}
             options={
@@ -30,7 +31,7 @@ function HomeNavigator() {
           <Stack.Screen name="ProductDetail" component={ProductDetail}
             options={
                 ({route}) => ({
-                    title: route.params.product.store,
+                    title: route.params.storeId,
                     headerTitleAlign: 'center',
                     headerRight: () => (<FavouriteButton />),
                 })

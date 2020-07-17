@@ -7,12 +7,36 @@ import PictureSlideShow from '../../components/shop/molecules/PicturesSlideshow'
 import FlashMessage from 'react-native-flash-message';
 
 function ProductDetail({route}) {
+    const initialProduct = {
+        name: 'No name provided',
+        description: 'No description provided',
+        price: 'No price provided',
+        images: ['No images provided']
+    }
+    const [product, setProduct] = React.useState({});
 
-    const {product} = route.params;
+    async function getProductInfo(productID) {
+        try {
+            const productInfoCall = await fetch('http://192.168.100.11:8000/api/products/'+productID);
+            const productInfo = await productInfoCall.json();
+
+            //console.log('useEffect geProductInfo: ', productInfo.images);
+
+            setProduct(productInfo);
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
+    React.useEffect(() => {
+        getProductInfo(route.params.productId);
+    }, [route.params.productId]);
 
     return (
         <ScrollView style={global.container}>
-            <PictureSlideShow itemsPerInterval={1} items={product.pictures}/>
+            {
+                product.images != undefined ? <PictureSlideShow itemsPerInterval={1} items={product.images}/> : <></>
+            }    
             <View style={styles.container}>
                 <View style={styles.headerContainer}>
                         <Text style={styles.productName}>{product.name}</Text>

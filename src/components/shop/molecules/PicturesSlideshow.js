@@ -6,7 +6,11 @@ import SlidePicture from '../atoms/SlidePicture';
 function PicturesSlideShow(props) {
 
     //Items is list of pictures uris
-    const {items} = props;
+    const [images, setImages] = React.useState(['no images']);
+
+    React.useEffect(() => {
+        setImages(props.items);
+    }, [props.items])
 
     const itemsPerInterval = props.itemsPerInterval === undefined
         ? 1 : props.itemsPerInterval;
@@ -20,7 +24,7 @@ function PicturesSlideShow(props) {
         setWidth(deviceWidth);
 
         //initialize total intervals
-        const totalItems = items.length;
+        const totalItems = images.length;
         setIntervals(Math.ceil(totalItems / itemsPerInterval));
     };
 
@@ -53,8 +57,6 @@ function PicturesSlideShow(props) {
         const bulletContainerWidth = 20 * bulletQty;
         const bulletHeight = 40.5;
 
-        console.log(deviceWidth);
-        console.log(bulletContainerWidth);
         return {
             top: 200 - bulletHeight,
             left: (deviceWidth - bulletContainerWidth) / 2,
@@ -75,13 +77,13 @@ function PicturesSlideShow(props) {
                 decelerationRate="fast"
                 pagingEnabled
             >
-                {items.map( (item, index) => {
+                {images.map( (item, index) => {
                     return (
                         <SlidePicture key={index} picture={item} />
                     );
                 })}
             </ScrollView>
-            <View style={[styles.bullets, bulletWidth(items.length)]}>
+            <View style={[styles.bullets, bulletWidth(images.length)]}>
                 {bullets}
             </View>
         </View>
