@@ -135,7 +135,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-    }
+    }  
     splits {
         abi {
             reset()
@@ -192,10 +192,14 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':react-native-config')
 
     //Firebase dependencies
     implementation "com.google.android.gms:play-services-base:17.3.0"
     implementation "com.google.firebase:firebase-core:17.4.4"
+
+    //Mercado pago dependency - Added manually
+    implementation 'com.mercadopago.android.px:checkout:4.+'
     
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
@@ -232,3 +236,5 @@ apply from: file("../../node_modules/@react-native-community/cli-platform-androi
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 apply plugin: 'com.google.gms.google-services'
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

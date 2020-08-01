@@ -1,5 +1,6 @@
+import Env from 'react-native-config';
 import React from 'react';
-import { View, Text } from 'react-native';
+import {StyleSheet, View, Text } from 'react-native';
 import global from '../../styles/global';
 import ProductCard from '../../components/shop/atoms/ProductCard';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -7,6 +8,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 function CategoryDetail({route, navigation}) {
 
     const [products, setProducts] = React.useState([]);
+    const [displayError, setDisplayError] = React.useState('');
 
     const productos = [
         {
@@ -58,12 +60,16 @@ function CategoryDetail({route, navigation}) {
     //Async / Await
     async function getProducts(category) {
         try {
-            console.log('CAT: ', category)
-            const productsCall = await fetch('http://192.168.100.11:8000/api/products/?search='+category);
+            console.log('CAT: ', category);
+            // const productsCall = await fetch('http://192.168.100.11:8000/api/products/?search='+category);
+            console.log(Env.API_URL);
+            const productsCall = await fetch(`${Env.API_URL}api/products/?search=` + category);
             const productsResponse = await productsCall.json();
                 setProducts(productsResponse);
                 // setProducts(products);
+                console.log(products);
         } catch (error) {
+            setDisplayError(error);
             console.log(error);
         }
     }
@@ -88,10 +94,17 @@ function CategoryDetail({route, navigation}) {
                                     picture={item.images[0]}
                                 />;
                     })
-                : <Text>No hay productos disponibles</Text>}
+                : displayError == '' ? <Text style={styles.noProducts}>No hay productos disponibles</Text>
+                    : <Text style={styles.noProducts}>Ocurrio un error, intente mas tarde</Text>
+                }
             </ScrollView>
         </View>
     );
 }
+const styles = StyleSheet.create({
+    noProducts: {
+        textAlign: 'center',
+    }
+});
 
 export default CategoryDetail;

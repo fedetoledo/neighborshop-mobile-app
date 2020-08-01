@@ -81,6 +81,10 @@ target 'example' do
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
 
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
+
+  pod 'blackbox-vision-react-native-mercadopago-px', :path => '../node_modules/@blackbox-vision/react-native-mercadopago-px'
+
   target 'exampleTests' do
     inherit! :complete
     # Pods for testing

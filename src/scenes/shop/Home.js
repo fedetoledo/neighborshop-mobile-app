@@ -58,7 +58,8 @@ function Home({navigation}) {
                         onChangeText={(text) => {setSearchQuery(text);}}
                         style={styles.searchInput} placeholder="Encontra lo que buscas "/>
                     <SearchButton onPress={() => {
-                        navigation.navigate('Category', {name: searchQuery})}} />
+                        navigation.navigate('Category', {name: searchQuery});
+                    }} />
                 </View>
                 <FeatureSlideShow
                     itemsPerInterval={1}

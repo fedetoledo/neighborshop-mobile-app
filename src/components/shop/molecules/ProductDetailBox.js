@@ -8,7 +8,7 @@ function ProductDetailBox(props) {
             <Text style={styles.descriptionTitle}>Descripcion</Text>
             <Text style={styles.description}>{props.description}</Text>
             <CustomTextInput placeholder="Cantidad"/>
-            <Button title="Comprar"/>
+            {/* <Button title="Comprar"/> */}
         </View>
     );
 }
