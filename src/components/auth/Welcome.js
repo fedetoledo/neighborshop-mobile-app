@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text, Button } from 'react-native';
-import global from '../styles/global';
+import global from '../../styles/global.css';
 
 export default function Welcome({navigation}) {
     return (

@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { showMessage } from 'react-native-flash-message';
 
-function FavouriteButton() {
+function FavouriteButton(props) {
 
     const [iconName, setIconName] = React.useState('heart-outline');
 
@@ -15,11 +15,12 @@ function FavouriteButton() {
         });
     };
 
+    const toggleHeart = () => {
+        iconName === 'heart-outline' ? [favMessage(), setIconName('heart')] : setIconName('heart-outline');
+    };
+
     return (
-        <TouchableOpacity
-            onPress={ () => {
-                iconName === 'heart-outline' ? [favMessage(), setIconName('heart')] : setIconName('heart-outline');
-            }}
+        <TouchableOpacity onPress={() => {props.onPress(); toggleHeart();}}
         >
             <MaterialCommunityIcons style={styles.icon} name={iconName} size={30} color="#f40000" />
         </TouchableOpacity>

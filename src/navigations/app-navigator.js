@@ -1,14 +1,13 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-import StoreScreen from '../scenes/Store';
-import ProfileScreen from '../scenes/Profile';
-import HomeScreen from '../scenes/shop/Home';
-import CategoryScreen from '../scenes/shop/Category';
+import FavouritesScreen from '../components/favourites/FavouritesScreen';
+import ProfileScreen from '../components/profile/ProfileScreen';
+import HomeScreen from '../components/market/Home';
+import CategoryScreen from '../components/market/Category';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ProductDetail from '../scenes/shop/ProductDetail';
-import SearchButton from '../components/shop/atoms/SearchButton';
-import FavouriteButton from '../components/shop/atoms/FavouriteButton';
+import ProductDetail from '../components/market/ProductDetail';
+import SearchButton from '../components/market/atoms/SearchButton';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -31,9 +30,26 @@ function HomeNavigator() {
           <Stack.Screen name="ProductDetail" component={ProductDetail}
             options={
                 ({route}) => ({
-                    title: route.params.storeId,
+                    title: route.params.market,
                     headerTitleAlign: 'center',
-                    headerRight: () => (<FavouriteButton />),
+                })
+            }
+          />
+        </Stack.Navigator>
+    );
+}
+
+function FavouritesNavigator() {
+    return (
+        <Stack.Navigator>
+          <Stack.Screen name="Favoritos" component={FavouritesScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="ProductDetail" component={ProductDetail}
+            options={
+                ({route}) => ({
+                    title: route.params.market,
+                    headerTitleAlign: 'center',
                 })
             }
           />
@@ -48,12 +64,12 @@ export default function AppNavigator() {
         >
             <Tab.Screen
                 options= {{
-                    tabBarLabel: 'Mi tienda',
+                    tabBarLabel: 'Favoritos',
                     tabBarIcon: ({color, size}) => (
-                        <MaterialCommunityIcons name="store" color={color} size={size} />
+                        <MaterialCommunityIcons name="heart" color={color} size={size} />
                         ),
                     }}
-                name="Store" component={StoreScreen} />
+                name="Store" component={FavouritesNavigator} />
             <Tab.Screen
                 options= {{
                     tabBarLabel: 'Home',

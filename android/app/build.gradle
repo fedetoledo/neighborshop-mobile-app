@@ -199,7 +199,7 @@ dependencies {
     implementation "com.google.firebase:firebase-core:17.4.4"
 
     //Mercado pago dependency - Added manually
-    implementation 'com.mercadopago.android.px:checkout:4.+'
+    // implementation 'com.mercadopago.android.px:checkout:4.+'
     
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 

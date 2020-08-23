@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, TextInput, Button} from 'react-native';
-import global from '../../styles/global';
+import global from '../../styles/global.css';
 import { ScrollView } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 

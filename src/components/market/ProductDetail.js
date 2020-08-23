@@ -1,12 +1,14 @@
 import Env from 'react-native-config';
 import React from 'react';
 import {ScrollView, View, Text, StyleSheet, Alert, Button} from 'react-native';
-import global from '../../styles/global';
+import global from '../../styles/global.css';
 import {Rating} from 'react-native-ratings';
-import ProductDetailBox from '../../components/shop/molecules/ProductDetailBox';
-import PictureSlideShow from '../../components/shop/molecules/PicturesSlideshow';
+import PictureSlideShow from '../../components/market/molecules/PicturesSlideshow';
 import FlashMessage from 'react-native-flash-message';
 import MercadoPagoCheckout from '@blackbox-vision/react-native-mercadopago-px';
+import APICallWithCredentials from '../../utils/APICallWithCredentials';
+import FavouriteButton from '../../components/market/atoms/FavouriteButton';
+import { TextInput } from 'react-native-gesture-handler';
 
 const getPreferenceId = async (payer, ...items) => {
     const response = await fetch(
@@ -18,29 +20,25 @@ const getPreferenceId = async (payer, ...items) => {
                 payer: {
                     email: payer,
                 },
+                marketplace_fee: 1.25,
             }),
         }
     );
-
-     console.log(payer);
-
     const preference = await response.json();
 
     return preference.id;
 };
 
-function ProductDetail({route}) {
+function ProductDetail({navigation, route}) {
 
     const [paymentResult, setPaymentResult] = React.useState(null);
     const [product, setProduct] = React.useState({});
 
     const startCheckout = async () => {
         try {
-            const preferenceId = await getPreferenceId('test_user_46875236@testuser.com', {
-                // 'title': product.name,
-                // 'description': product.description,
-                'title': 'Dummy item',
-                'description': 'Dummy description',
+            const preferenceId = await getPreferenceId('test@user.com', {
+                'title': product.name,
+                'description': product.description,
                 'quantity': 1,
                 'currency_id': 'ARS',
                 'unit_price': 10.0,
@@ -49,7 +47,7 @@ function ProductDetail({route}) {
             console.log('prefernece: ' + preferenceId);
 
             const payment = await MercadoPagoCheckout.createPayment({
-                // publicKey: Env.MP_PUBLIC_KEY,
+                //publicKey: 'TEST-34cf509b-6f78-4318-ae23-dcd4d639fe5d',
                 publicKey: Env.MP_PUBLIC_KEY,
                 preferenceId,
             });
@@ -62,20 +60,30 @@ function ProductDetail({route}) {
 
     async function getProductInfo(productID) {
         try {
-            const productInfoCall = await fetch(`${Env.API_URL}api/products/${productID}`);
+            const productInfoCall = await fetch(`${Env.API_URL}/api/products/${productID}`);
             const productInfo = await productInfoCall.json();
-
-            //console.log('useEffect geProductInfo: ', productInfo.images);
-
             setProduct(productInfo);
         } catch (error) {
             console.log(error);
         }
     }
 
+    const toggleFavourite = async () => {
+        const newFavourite = await APICallWithCredentials('post', 'favourites/', {user:27,product:route.params.productID});
+        console.log('newfav',newFavourite);
+    };
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <FavouriteButton onPress={() => toggleFavourite()} />
+            ),
+        });
+    });
+
     React.useEffect(() => {
-        getProductInfo(route.params.productId);
-    }, [route.params.productId]);
+        getProductInfo(route.params.productID);
+    }, [route.params.productID]);
 
     return (
         <ScrollView style={global.container}>
@@ -91,8 +99,9 @@ function ProductDetail({route}) {
                     </View>
                 </View>
                 <View style={styles.detailsContainer}>
-                    <ProductDetailBox description={product.description} />
-                    <Text style={styles.text}>Payment: {JSON.stringify(paymentResult)}</Text>
+                    <Text style={styles.descriptionTitle}>Descripcion</Text>
+                    <Text style={styles.description}>{product.description}</Text>
+                    <TextInput placeholder="Cantidad"/>
                     <Button onPress={startCheckout} title="comprar mp"/>
                 </View>
             </View>

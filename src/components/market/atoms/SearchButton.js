@@ -9,7 +9,7 @@ function SearchButton(props) {
             <MaterialCommunityIcons
                 name="magnify"
                 size={30}
-                color="#000"
+                color="#454545"
                 style={styles.icon}
             />
         </TouchableOpacity>
