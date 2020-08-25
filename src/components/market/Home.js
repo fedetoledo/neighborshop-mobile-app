@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-import {StyleSheet, TextInput, View, Text, StatusBar} from 'react-native';
-import global from '../../styles/global';
+import {StyleSheet, TextInput, View, Text} from 'react-native';
+import global from '../../styles/global.css';
 import { ScrollView } from 'react-native-gesture-handler';
-import FeatureSlideShow from '../../components/shop/molecules/FeatureSlideShow';
-import CategoryButton from '../../components/shop/atoms/CategoryButton';
-import auth from '@react-native-firebase/auth';
+import FeatureSlideShow from '../../components/market/molecules/FeatureSlideShow';
+import CategoryButton from '../../components/market/atoms/CategoryButton';
 import firestore from '@react-native-firebase/firestore';
-import SearchButton from '../../components/shop/atoms/SearchButton';
+import SearchButton from '../../components/market/atoms/SearchButton';
+import LinearGradient from 'react-native-linear-gradient';
 
 function Home({navigation}) {
 
-    const [authUser, setAuthUser] = React.useState(auth().currentUser);
     const [categories, setCategories] = React.useState([]);
     const [searchQuery, setSearchQuery] = React.useState('');
 
@@ -50,36 +49,42 @@ function Home({navigation}) {
     }, []);
 
     return (
-        <View on style={global.container}>
-            <StatusBar hidden={false} translucent={true} backgroundColor="#00b0f9" barStyle="light-content" />
-            <ScrollView showsVerticalScrollIndicator={false}>
+        <View>
+            <View style={styles.searchBarContainer}>
                 <View style={styles.searchBar}>
                     <TextInput
                         onChangeText={(text) => {setSearchQuery(text);}}
-                        style={styles.searchInput} placeholder="Encontra lo que buscas "/>
+                        placeholder="Encontra lo que buscas "/>
                     <SearchButton onPress={() => {
                         navigation.navigate('Category', {name: searchQuery});
                     }} />
                 </View>
-                <FeatureSlideShow
-                    itemsPerInterval={1}
-                    items={premiumProducts}
-                />
-                <Text>Hola, {authUser.displayName}</Text>
-                <Text style={styles.categoriesTitle}>Categorias</Text>
-                <View style={styles.categoriesContainer}>
-                    {
-                        categories.map((item, key) => {
-                            return <CategoryButton
-                                        key={key}
-                                        name={item.name}
-                                        picture={item.imageURL}
-                                        onPress={() => {
-                                            navigation.navigate('Category', {name:item.name});
-                                        }}
-                                    />;
-                        })
-                    }
+            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View>
+                    <LinearGradient style={styles.slideShowContainer} colors={['#00b0f9','#fff']}>
+                        <FeatureSlideShow
+                            itemsPerInterval={1}
+                            items={premiumProducts}
+                        />
+                    </LinearGradient>
+                </View>
+                <View style={global.container}>
+                    <Text style={styles.categoriesTitle}>Categorias</Text>
+                    <View style={styles.categoriesContainer}>
+                        {
+                            categories.map((item, key) => {
+                                return <CategoryButton
+                                            key={key}
+                                            name={item.name}
+                                            picture={item.imageURL}
+                                            onPress={() => {
+                                                navigation.navigate('Category', {name:item.name});
+                                            }}
+                                        />;
+                            })
+                        }
+                    </View>
                 </View>
             </ScrollView>
         </View>
@@ -87,19 +92,23 @@ function Home({navigation}) {
 }
 
 const styles = StyleSheet.create({
+    searchBarContainer: {
+        paddingHorizontal: 10,
+        paddingVertical: 15,
+        backgroundColor: '#00b0f9',
+    },
     searchBar: {
-        flex: 1,
-        marginBottom: 5,
-        marginHorizontal: 5,
-        elevation: 2,
+        backgroundColor: '#fff',
+        elevation: 5,
         paddingHorizontal: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderRadius: 2,
+        borderRadius: 30,
         borderColor: '#aaa',
     },
-    searchInput: {
+    slideShowContainer: {
+        paddingHorizontal: 10,
     },
     categoriesTitle: {
         marginBottom: 5,

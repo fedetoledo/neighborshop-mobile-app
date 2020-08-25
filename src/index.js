@@ -1,6 +1,14 @@
 import React from 'react';
-import Navigator from './navigations/index';
+import {StatusBar} from 'react-native';
+import Navigator from './navigations';
 
-const App = () => <Navigator />;
+const App = () => {
+    return (
+    <>
+        <StatusBar backgroundColor="#00b0f9" barStyle="light-content" />
+        <Navigator />
+    </>
+    );
+};
 
 export default App;

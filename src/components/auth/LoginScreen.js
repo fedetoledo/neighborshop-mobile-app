@@ -1,27 +1,22 @@
 import React from 'react';
 import {View, StyleSheet, TextInput, Button} from 'react-native';
-import global from '../../styles/global';
-import auth from '@react-native-firebase/auth';
+import global from '../../styles/global.css';
+import {AuthContext} from '../../navigations/';
 
-function Login({navigation}) {
+function Login() {
 
-    const [email, setEmail] = React.useState('');
+    const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
 
-    const doLogin = () => {
-        auth().signInWithEmailAndPassword(email, password)
-        .then(() => {
-            console.log('signed in');
-        });
-    };
+    const {signIn} = React.useContext(AuthContext);
 
     return (
         <View style={[global.container, styles.wrapper]}>
             <View style={styles.inputs}>
                 <TextInput onChangeText={text => {
-                        setEmail(text);
+                        setUsername(text);
                     }}
-                    style={styles.input} placeholder="Email"/>
+                    style={styles.input} placeholder="Nombre de usuario"/>
                 <TextInput onChangeText={text => {
                         setPassword(text);
                     }}
@@ -29,7 +24,7 @@ function Login({navigation}) {
             </View>
             <View style={styles.buttons}>
                 <Button
-                    onPress={() => {doLogin();}}
+                    onPress={() => {signIn(username, password);}}
                     color="#81d4fa" style={styles.button} title="Iniciar Sesion"/>
             </View>
         </View>

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     categoryContainer: {
         elevation: 3,
         height: 100,
-        width: 170,
+        width: 160,
         marginVertical: 5,
         marginHorizontal: 5,
         borderRadius: 4,

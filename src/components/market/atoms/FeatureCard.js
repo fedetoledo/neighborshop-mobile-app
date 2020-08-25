@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginHorizontal: 5,
         height: 140,
+        marginHorizontal: 5,
     },
     title: {
         height: '100%',
