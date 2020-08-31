@@ -33,7 +33,7 @@ static void InitializeFlipper(UIApplication *application) {
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"example"
+                                                   moduleName:@"ecommerce"
                                             initialProperties:nil];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
@@ -41,7 +41,13 @@ static void InitializeFlipper(UIApplication *application) {
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
+  //self.window.rootViewController = rootViewController;
+  UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+
+  [navController setToolbarHidden:YES animated:YES];
+  [navController setNavigationBarHidden:YES];
+
+  self.window.rootViewController = navController;
   [self.window makeKeyAndVisible];
   return YES;
 }

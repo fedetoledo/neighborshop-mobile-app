@@ -1,4 +1,6 @@
-platform :ios, '9.0'
+platform :ios, '10.0'
+install! 'cocoapods', :disable_input_output_paths => true
+
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 def add_flipper_pods!(versions = {})
@@ -44,8 +46,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'example' do
-  # Pods for example
+target 'ecommerce' do
+  # Pods for ecommerce
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -73,25 +75,25 @@ target 'example' do
   pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
   pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
 
-  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
-  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
-  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec', :modular_headers => false
+  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec', :modular_headers => false
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec', :modular_headers => false
 
-  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
-  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+  #pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
 
-  pod 'react-native-config', :path => '../node_modules/react-native-config'
 
-  pod 'blackbox-vision-react-native-mercadopago-px', :path => '../node_modules/@blackbox-vision/react-native-mercadopago-px'
 
-  target 'exampleTests' do
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  target 'ecommerceTests' do
     inherit! :complete
     # Pods for testing
   end
 
   use_native_modules!
-
+  use_modular_headers!
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
@@ -102,10 +104,10 @@ target 'example' do
   end
 end
 
-target 'example-tvOS' do
-  # Pods for example-tvOS
+target 'ecommerce-tvOS' do
+  # Pods for ecommerce-tvOS
 
-  target 'example-tvOSTests' do
+  target 'ecommerce-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
