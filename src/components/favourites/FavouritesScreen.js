@@ -1,27 +1,25 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, RefreshControl} from 'react-native';
 import ProductCard from '../market/atoms/ProductCard';
 import { ScrollView } from 'react-native-gesture-handler';
-import APICallWithCredentials from '../../utils/APICallWithCredentials';
+import { getUserFavourites } from "../../utils/api/ApiCalls";
+import { getUserKey } from "../../utils//storage";
+import global from '../../styles/global.css';
 
 function Favourites({navigation}) {
 
     const [favourites, setFavourites] = React.useState([]);
+    const [refreshing, setRefreshing] = React.useState(false);
 
-    const getUserFavourites = async (uid) => {
-        try {
-            const fetchFavourites = await APICallWithCredentials('get', `favourites/?uid=${uid}`);
-            setFavourites(fetchFavourites);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        getFavourites();
+        setRefreshing(false);
+    })
 
     const getProductsFromFavourites = favs => {
-        console.log(favs);
         const products = [];
         favs.map(fav => {
-            console.log(fav);
             products.push(fav.product);
         });
         return products;
@@ -46,19 +44,28 @@ function Favourites({navigation}) {
             );
         });
     };
+    
+    async function getFavourites(){
+        const user = await getUserKey();
+        const fetchedFavourites = await getUserFavourites(user.id);
+        setFavourites(fetchedFavourites);
+        console.log(fetchedFavourites);
+    }
 
     React.useEffect(() => {
-        console.log('UseEffect favourites');
-        getUserFavourites('bDoC6Rc2TedHDRFOyeMcJFisFSm1');
+        getFavourites();
     },[]);
 
     return (
-        <ScrollView>
+        <ScrollView 
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            style={global.container}>
+            <SafeAreaView />
             <Text style={styles.favouritesTitle}>Tus productos favoritos</Text>
             <View>
             {
                 favourites !== [] ? showFavouriteProducts() :
-                <Text>No tenes productos favoritos</Text>
+                <Text style={styles.noProducts}>No tenes productos favoritos</Text>
             }
             </View>
         </ScrollView>
@@ -67,13 +74,17 @@ function Favourites({navigation}) {
 
 const styles = StyleSheet.create({
     favouritesTitle: {
-        backgroundColor: '#00b0f9',
         fontSize: 30,
         textAlign: 'center',
-        color: '#fff',
+        color: '#333',
         paddingVertical: 10,
         elevation: 4,
     },
+    noProducts: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    }
 });
 
 export default Favourites;

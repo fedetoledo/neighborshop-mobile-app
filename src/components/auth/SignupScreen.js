@@ -1,43 +1,55 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, Button} from 'react-native';
+import {View, StyleSheet, TextInput, Button, SafeAreaView} from 'react-native';
 import global from '../../styles/global.css';
+import {AuthContext} from '../../navigations';
 import { ScrollView } from 'react-native-gesture-handler';
-import auth from '@react-native-firebase/auth';
 
 function Signup() {
 
-    const [nombre, setNombre] = useState('');
-    const [usuario, setUsuario] = useState('');
+    const {signUp} = React.useContext(AuthContext);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
-    const [email, setEmail] = useState('');
-    const [telefono, setTelefono] = useState('');
+    // const [telefono, setTelefono] = useState('');
 
-    const signup = () => {
-        if (password === password2) {
-            auth().createUserWithEmailAndPassword(email, password)
-            .then(data => {
-                data.user.updateProfile({
-                    displayName: nombre,
-                    phoneNumber: telefono,
-                });
-            });
+    const doSignup = () => {
+        if (password !== password2) {
+            console.log('Passwords does not match!')
+        } else {
+            const data = {
+                firstName: firstName,
+                lastName: lastName,
+                username: username,
+                email: email,
+                password: password,
+            }
+            console.log(data)
+            signUp(data);
         }
-    };
+    }
 
     return (
         <View style={[global.container, styles.wrapper]}>
+            <SafeAreaView style={global.safeArea}/>
             <ScrollView contentContainerStyle={styles.wrapper}>
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} onChangeText={text => setNombre(text)} placeholder="Nombre" />
-                    <TextInput style={styles.input} onChangeText={text => setUsuario(text)} placeholder="Usuario"/>
-                    <TextInput style={styles.input} onChangeText={text => setPassword(text)} placeholder="Contraseña" type="password"/>
-                    <TextInput style={styles.input} onChangeText={text => setPassword2(text)} placeholder="Confirmar contraseña" type="password"/>
-                    <TextInput style={styles.input} onChangeText={text => setEmail(text)} placeholder="Email" />
-                    <TextInput style={styles.input} onChangeText={text => setTelefono(text)} placeholder="Telefono" />
+                    <TextInput style={styles.textInput} onChangeText={text => setFirstName(text)} placeholder="Nombre" />
+                    <TextInput style={styles.textInput} onChangeText={text => setLastName(text)} placeholder="Apellido" />
+                    <TextInput style={styles.textInput} onChangeText={text => setUsername(text)} placeholder="Usuario"/>
+                    <TextInput style={styles.textInput} onChangeText={text => setEmail(text)} placeholder="Email" />
+                    <TextInput style={styles.textInput} onChangeText={text => setPassword(text)} placeholder="Contraseña" type="password"/>
+                    <TextInput style={styles.textInput} onChangeText={text => setPassword2(text)} placeholder="Confirmar contraseña" type="password"/>
+                    {/* <TextInput style={styles.input} onChangeText={text => setTelefono(text)} placeholder="Telefono" /> */}
                 </View>
                 <View style={styles.buttons}>
-                    <Button onPress={() => {signup();}} color="#81d4fa" style={styles.button} title="Registrarse"/>
+                    <Button 
+                        onPress={() => {doSignup();}} 
+                        color="#81d4fa" 
+                        style={styles.button} 
+                        title="Registrarse"/>
                 </View>
             </ScrollView>
         </View>
@@ -53,11 +65,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 30,
     },
-    input: {
-        borderRadius: 2,
-        paddingHorizontal: 15,
-        marginBottom: 10,
-        backgroundColor: '#fafafa',
+    textInput: {
+        borderRadius: 4,
+        padding: 8,
+        marginVertical: 15,
+        marginHorizontal: 5,
+        backgroundColor: '#fff',
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {width:0, height:2},
+        shadowOpacity: 0.15,
+        shadowRadius: 1,
     },
 });
 

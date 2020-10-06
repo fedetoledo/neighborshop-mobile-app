@@ -16,8 +16,9 @@ function CategoryDetail({route, navigation}) {
             const productsCall = await fetch(`${Env.API_URL}/api/products/?search=` + category);
             const productsResponse = await productsCall.json();
                 setProducts(productsResponse);
-                console.log('products',products);
+                console.log('products', products);
         } catch (error) {
+            console.log('fetching error')
             setDisplayError(error);
             console.log(error);
         }
@@ -25,36 +26,41 @@ function CategoryDetail({route, navigation}) {
 
     React.useEffect(() => {
         getProducts(route.params.name);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     return (
-        <View style={global.container}>
-            <ScrollView>
-                {products.length !== 0 ?
-                    products.map((item, index)=> {
-                        return <ProductCard
-                                    onPress={() => {
-                                        navigation.navigate('ProductDetail', {productID: item.id, market: item.market});
-                                    }}
-                                    key={index}
-                                    name={item.name}
-                                    description={item.description}
-                                    price={item.price}
-                                    picture={item.images[0]}
-                                />;
-                    })
-                : displayError === '' ? <Text style={styles.noProducts}>No hay productos disponibles</Text>
-                    : <Text style={styles.noProducts}>Ocurrio un error, intente mas tarde</Text>
-                }
-            </ScrollView>
-        </View>
+        <ScrollView style={global.container}>
+            {products.length !== 0 ?
+                <ScrollView>
+                    {products.map((item, index)=> {
+                        console.log(item.id)
+                        return (
+                            <ProductCard
+                                onPress={() => {
+                                    navigation.navigate('ProductDetail', {productID: item.id, market: item.market});
+                                }}
+                                key={index}
+                                name={item.name}
+                                description={item.description}
+                                price={item.price}
+                                picture={item.images[0]}
+                            />
+                        );
+                    })}
+                </ScrollView>
+            : displayError === '' ?
+                <View style={global.errorContainer}>
+                    <Text style={global.errorText}>No hay productos disponibles</Text>
+                </View>
+            :   
+                <View style={global.errorContainer}>
+                    <Text style={global.errorText}>Ocurrio un error, intente mas tarde</Text>
+                </View>
+            }
+        </ScrollView>
     );
 }
 const styles = StyleSheet.create({
-    noProducts: {
-        textAlign: 'center',
-    },
 });
 
 export default CategoryDetail;

@@ -8,10 +8,10 @@ const Stack = createStackNavigator();
 
 export default function AuthNavigator() {
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="Welcome" options={{headerShown: false}} component={WelcomeScreen} />
-            <Stack.Screen name="Login" options={{headerTitleAlign: 'center'}} component={LoginScreen} />
-            <Stack.Screen name="Signup" optons={{headerTitleAlign: 'center'}} component={SignupScreen} />
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Welcome"component={WelcomeScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Signup" component={SignupScreen} />
         </Stack.Navigator>
     );
 }

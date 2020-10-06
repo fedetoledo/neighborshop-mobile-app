@@ -1,21 +1,27 @@
 import React from 'react';
 import {StyleSheet, View, Text, ImageBackground} from 'react-native';
+import LinearGradient from "react-native-linear-gradient";
+import global from '../../../styles/global.css'
 
 function FeatureCard(props) {
     return (
-        <View style={styles.cardFeaturing}>
-            <View style={styles.title}>
-                <Text style={styles.name}>{props.name}</Text>
-                <Text style={styles.description}>{props.description}</Text>
-            </View>
+        <View style={[styles.cardFeaturing, global.outerShadow]}>
+        <LinearGradient style={[styles.title]} useAngle angle={100} colors={['#234949', '#517fa4']} locations={[0,1]}>
+                {/* <View style={styles.title}> */}
+                    <Text style={styles.name}>{props.name}</Text>
+                    <Text style={styles.description}>{props.description}</Text>
+                {/* </View> */}
+            </LinearGradient>
 
-            <ImageBackground
-                style={styles.picture}
-                imageStyle={styles.picture}
-                source={{uri: props.picture}}
-            >
-                <Text style={styles.price}>{props.price}</Text>
-            </ImageBackground>
+                <ImageBackground
+                    style={styles.picture}
+                    imageStyle={styles.picture}
+                    source={{uri: props.picture}}
+                >
+                    <Text style={styles.price}>{props.price}</Text>
+                </ImageBackground>
+
+
         </View>
     );
 }

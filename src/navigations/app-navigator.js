@@ -30,7 +30,7 @@ function HomeNavigator() {
           <Stack.Screen name="ProductDetail" component={ProductDetail}
             options={
                 ({route}) => ({
-                    title: route.params.market,
+                    title: route.params.market.name,
                     headerTitleAlign: 'center',
                 })
             }

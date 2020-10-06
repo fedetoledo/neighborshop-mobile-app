@@ -19,10 +19,18 @@ function FavouriteButton(props) {
         iconName === 'heart-outline' ? [favMessage(), setIconName('heart')] : setIconName('heart-outline');
     };
 
+    React.useEffect(() => {
+        props.isToggled ? setIconName('heart') : setIconName('heart-outline');
+    }, [props.isToggled]);
+
     return (
         <TouchableOpacity onPress={() => {props.onPress(); toggleHeart();}}
         >
-            <MaterialCommunityIcons style={styles.icon} name={iconName} size={30} color="#f40000" />
+            <MaterialCommunityIcons 
+                style={styles.icon} 
+                name={iconName} 
+                size={30} 
+                color="#f40000" />
         </TouchableOpacity>
     );
 }
