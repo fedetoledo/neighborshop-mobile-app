@@ -1,13 +1,13 @@
 import React from 'react';
 import {StyleSheet, Text, ImageBackground} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import global from '../../../styles/global.css'
 
 function CategoryButton(props) {
     return (
         <TouchableOpacity
             onPress={props.onPress}
-            style={styles.categoryContainer}>
+            style={[styles.categoryContainer]}>
                 <ImageBackground style={styles.picture} imageStyle={styles.innerPicture} source={{uri: props.picture}}>
                     <Text style={styles.categoryTitle}>{props.name}</Text>
                 </ImageBackground>
@@ -17,13 +17,18 @@ function CategoryButton(props) {
 
 const styles = StyleSheet.create({
     categoryContainer: {
-        elevation: 3,
         height: 100,
-        width: 160,
+        minWidth: '48%',
         marginVertical: 5,
-        marginHorizontal: 5,
+        marginHorizontal: 2.5,
         borderRadius: 4,
         backgroundColor: '#333',
+
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: {width:0, height: 1.5},
+        shadowOpacity: 0.15,
+        shadowRadius: 1,
     },
     picture: {
         flex: 1,
@@ -37,6 +42,7 @@ const styles = StyleSheet.create({
         opacity: 0.4,
     },
     categoryTitle: {
+        textAlign: 'center',
         opacity: 1,
         margin: 10,
         fontSize: 20,

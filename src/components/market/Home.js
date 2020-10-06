@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import {StyleSheet, TextInput, View, Text} from 'react-native';
+import {StyleSheet, TextInput, View, Text, SafeAreaView} from 'react-native';
 import global from '../../styles/global.css';
 import { ScrollView } from 'react-native-gesture-handler';
 import FeatureSlideShow from '../../components/market/molecules/FeatureSlideShow';
 import CategoryButton from '../../components/market/atoms/CategoryButton';
-import firestore from '@react-native-firebase/firestore';
 import SearchButton from '../../components/market/atoms/SearchButton';
 import LinearGradient from 'react-native-linear-gradient';
+import { fetchCategories } from "../../utils/api/ApiCalls";
 
 function Home({navigation}) {
 
@@ -28,31 +28,23 @@ function Home({navigation}) {
         },
     ];
 
-    //Promises
-    function getCategories() {
-        setCategories([]);
-        firestore().collection('categories').get()
-            .then(querySnapshot => {
-                console.log('useEffect getCategories');
-                querySnapshot.forEach(doc => {
-                    let cat = {
-                        name: doc.data().name,
-                        imageURL: doc.data().imageURL,
-                    };
-                    setCategories(prevState => [...prevState, cat]);
-                });
-            }).catch(error => {console.error('error', error);});
-    }
-
     useEffect(() => {
+        async function getCategories() {
+            const categoriesResponse = await fetchCategories();
+            categoriesResponse !== undefined ?
+                setCategories(categoriesResponse)
+            : {};
+        }
         getCategories();
     }, []);
 
     return (
-        <View>
+        <>
+        <SafeAreaView style={global.safeArea}/>
             <View style={styles.searchBarContainer}>
-                <View style={styles.searchBar}>
+                <View style={[global.outerShadow,styles.searchBar]}>
                     <TextInput
+                        style={styles.search}
                         onChangeText={(text) => {setSearchQuery(text);}}
                         placeholder="Encontra lo que buscas "/>
                     <SearchButton onPress={() => {
@@ -60,34 +52,33 @@ function Home({navigation}) {
                     }} />
                 </View>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView 
+                style={global.container}
+                showsVerticalScrollIndicator={false}>
+                <FeatureSlideShow
+                    itemsPerInterval={1}
+                    items={premiumProducts}
+                />
                 <View>
-                    <LinearGradient style={styles.slideShowContainer} colors={['#00b0f9','#fff']}>
-                        <FeatureSlideShow
-                            itemsPerInterval={1}
-                            items={premiumProducts}
-                        />
-                    </LinearGradient>
-                </View>
-                <View style={global.container}>
                     <Text style={styles.categoriesTitle}>Categorias</Text>
                     <View style={styles.categoriesContainer}>
                         {
                             categories.map((item, key) => {
-                                return <CategoryButton
-                                            key={key}
-                                            name={item.name}
-                                            picture={item.imageURL}
-                                            onPress={() => {
-                                                navigation.navigate('Category', {name:item.name});
-                                            }}
-                                        />;
+                                return (
+                                    <CategoryButton
+                                        key={key}
+                                        name={item.name}
+                                        picture={item.image}
+                                        onPress={() => {
+                                            navigation.navigate('Category', {name:item.name});
+                                        }}
+                                    />);
                             })
                         }
                     </View>
                 </View>
             </ScrollView>
-        </View>
+            </>
     );
 }
 
@@ -95,7 +86,7 @@ const styles = StyleSheet.create({
     searchBarContainer: {
         paddingHorizontal: 10,
         paddingVertical: 15,
-        backgroundColor: '#00b0f9',
+        backgroundColor: '#f5f1da',
     },
     searchBar: {
         backgroundColor: '#fff',
@@ -107,18 +98,24 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         borderColor: '#aaa',
     },
+    search:{
+        width: '90%',
+        paddingVertical: '2.5%',
+    },
     slideShowContainer: {
         paddingHorizontal: 10,
     },
     categoriesTitle: {
-        marginBottom: 5,
+        marginVertical: 10,
         textAlign: 'center',
         fontSize: 30,
     },
     categoriesContainer: {
+        flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center',
+        alignItems: 'flex-start',
+        justifyContent: "space-between",
     },
     picture: {
         width: 100,
