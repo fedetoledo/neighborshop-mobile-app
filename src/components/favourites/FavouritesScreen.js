@@ -46,6 +46,13 @@ function Favourites({navigation}) {
     };
 
     async function getFavourites(){
+        const user = await getUserKey();
+        const fetchedFavourites = await getUserFavourites(user.id);
+        setFavourites(fetchedFavourites);
+        console.log(fetchedFavourites);
+    }
+
+    async function getFavourites(){
         try {
             setIsLoading(true);
             const user = await getUserKey();

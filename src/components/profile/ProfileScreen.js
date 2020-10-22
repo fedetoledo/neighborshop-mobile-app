@@ -32,7 +32,6 @@ function Profile({navigation}) {
 
           ImagePicker.showImagePicker(options, async (response) => {
             // console.log('Response = ', response.uri);
-
             if (response.didCancel) {
               console.log('User cancelled image picker');
             } else if (response.error) {
@@ -119,6 +118,12 @@ function Profile({navigation}) {
 }
 
 const styles = StyleSheet.create({
+    profileContainer: {
+        flex: 1,
+        // backgroundColor: '#00b0f9',
+        display: 'flex',
+        paddingVertical: 25,
+    },
     profileCard: {
         elevation: 3,
         marginVertical: 40,
