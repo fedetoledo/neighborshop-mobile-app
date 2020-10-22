@@ -3,7 +3,7 @@ import {Text, TextInput, View, StyleSheet, SafeAreaView, Image} from 'react-nati
 import global from '../../styles/global.css';
 import {AuthContext} from '../../navigations/';
 import LinearGradient from 'react-native-linear-gradient';
-import { Button } from "../utils";
+import { Button } from '../utils';
 import { ScrollView } from 'react-native-gesture-handler';
 import FlashMessage from 'react-native-flash-message';
 function Login({navigation}) {
@@ -16,7 +16,7 @@ function Login({navigation}) {
     const clearInputFields = () => {
         setUsername('');
         setPassword('');
-    }
+    };
 
     return (
         <LinearGradient
@@ -29,24 +29,24 @@ function Login({navigation}) {
         <ScrollView showsVerticalScrollIndicator={false}>
             <SafeAreaView />
                 <View style={styles.imageWrapper}>
-                    <Image 
+                    <Image
                     style={styles.image}
                     source={{
-                        uri: 'https://storage.googleapis.com/barrio-ecommerce.appspot.com/assets/ns_logo.png'
+                        uri: 'https://storage.googleapis.com/barrio-ecommerce.appspot.com/assets/ns_logo.png',
                     }}/>
                 </View>
                 <View style={styles.textInputs}>
-                    <TextInput 
+                    <TextInput
                         onChangeText={text => {setUsername(text);}}
-                        style={styles.textInput} 
+                        style={styles.textInput}
                         placeholder="Nombre de usuario"
                         value={username}
                     />
-                    
+
                     <TextInput
                         secureTextEntry={true}
                         onChangeText={text => {setPassword(text);}}
-                        style={styles.textInput} 
+                        style={styles.textInput}
                         placeholder="Contraseña"
                         value={password}
                     />
@@ -54,18 +54,18 @@ function Login({navigation}) {
                 <View style={styles.buttonWrapper}>
                     <Button
                         onPress={() => {signIn(username, password); clearInputFields();}}
-                        style={styles.button} 
+                        style={styles.button}
                         title="Iniciar Sesion"/>
 
                     <Text style={styles.noAccount}>No tenes una cuenta?{' '}
-                        <Text 
+                        <Text
                             onPress={() => {
                                 navigation.navigate('Signup');
                             }}
                             style={global.linkText}>Registrate ahora!</Text>
                     </Text>
                 </View>
-                <FlashMessage position='top'/>
+                <FlashMessage position="top"/>
         </ScrollView>
             </LinearGradient>
     );
@@ -80,9 +80,9 @@ const styles = StyleSheet.create({
     imageWrapper: {
     },
     image: {
-        alignSelf: "center",
+        alignSelf: 'center',
         width: 200,
-        height: 200
+        height: 200,
     },
     textInputs: {
     },
@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 16,
         color: '#fff',
-        textAlign: "center",
-    }
+        textAlign: 'center',
+    },
 });
 
 export default Login;

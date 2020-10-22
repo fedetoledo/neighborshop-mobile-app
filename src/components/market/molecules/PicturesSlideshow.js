@@ -10,7 +10,7 @@ function PicturesSlideShow(props) {
 
     React.useEffect(() => {
         setImages(props.items);
-    }, [props.items])
+    }, [props.items]);
 
     const itemsPerInterval = props.itemsPerInterval === undefined
         ? 1 : props.itemsPerInterval;

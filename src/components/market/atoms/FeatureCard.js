@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, ImageBackground} from 'react-native';
-import LinearGradient from "react-native-linear-gradient";
-import global from '../../../styles/global.css'
+import LinearGradient from 'react-native-linear-gradient';
+import global from '../../../styles/global.css';
 
 function FeatureCard(props) {
     return (

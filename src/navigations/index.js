@@ -3,10 +3,10 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AppNavigator from './app-navigator';
 import AuthNavigator from './auth-navigation';
-import { Text } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import { setUserKey, removeUserKey, getUserKey } from "../utils/storage";
+import { setUserKey, removeUserKey, getUserKey } from '../utils/storage';
 import { getUserToken } from '../utils/api/ApiCalls';
+import { LoadingView } from '../components/utils';
 
 export const AuthContext = React.createContext();
 
@@ -51,7 +51,7 @@ export default function Navigator() {
             console.log('CREDENTIALS AT FIRST LOAD: ', credentials);
             dispatch({ type: 'RESTORE_TOKEN', user: credentials });
           } catch (e) {
-            console.log('[RestoreToken]Restore failed:', e)
+            console.log('[RestoreToken]Restore failed:', e);
           }
         };
 
@@ -64,26 +64,25 @@ export default function Navigator() {
             try {
               const credentials = await getUserToken(username, password);
               console.log(credentials);
-  
               credentials.token !== undefined ? [
                 await setUserKey(credentials),
-                dispatch({type: 'SIGN_IN', user: credentials})
-              ] : 
+                dispatch({type: 'SIGN_IN', user: credentials}),
+              ] :
                 showMessage({
                   message: 'Usuario o contrasena incorrecto',
                   type: 'danger',
-                })
-            } catch(error) {
-              console.log('Error signIn action', error)
+                });
+            } catch (error) {
+              console.log('Error signIn action', error);
             }
 
           },
           signOut: async () => {
             try {
               await removeUserKey();
-              dispatch({ type: 'SIGN_OUT' })
+              dispatch({ type: 'SIGN_OUT' });
             } catch (error) {
-              console.log('[signout] Error', error)
+              console.log('[signout] Error', error);
             }
           },
           signUp: async (data) => {
@@ -103,20 +102,20 @@ export default function Navigator() {
                   username: data.username,
                   email: data.email,
                   password: data.password,
-                })
+                }),
               });
               const credentials = await signupUser.json();
-              console.log(credentials)
+              console.log(credentials);
               credentials.token !== undefined ? [
                 await setUserKey(credentials),
-                dispatch({type: 'SIGN_IN', user: credentials})
-              ] : 
+                dispatch({type: 'SIGN_IN', user: credentials}),
+              ] :
                 showMessage({
                   message: 'Usuario o contrasena incorrecto',
                   type: 'danger',
-                })
+                });
             } catch (error) {
-              console.log('[Signup]Error: ', error)
+              console.log('[Signup]Error: ', error);
             }
           },
         }),
@@ -125,7 +124,7 @@ export default function Navigator() {
 
     return (
       state.isLoading ? (
-        <Text>LOADING</Text>
+        <LoadingView />
       ) : (
         <AuthContext.Provider value={authContext}>
             <NavigationContainer>
@@ -138,3 +137,4 @@ export default function Navigator() {
       )
     );
 }
+

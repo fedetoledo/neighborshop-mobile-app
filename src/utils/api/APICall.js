@@ -5,8 +5,8 @@ import { getUserKey } from '../storage';
 export async function APICallWithCredentials(method, path, params) {
     try {
         const userString = await AsyncStorage.getItem('user');
-        const user = JSON.parse(userString)
-        console.log('User [API call]:', user.token)
+        const user = JSON.parse(userString);
+        console.log('User [API call]:', user.token);
         if (params) {
             const response = await fetch(`${Env.API_URL}/api/${path}`,{
                 method: method,
@@ -38,12 +38,12 @@ export async function APICall(method, path, params) {
     try {
         const user = await getUserKey();
         params.user = user.id;
-        console.log('params with user', params)
+        console.log('params with user', params);
         if (params && method !== 'get') {
             const request = await fetch(`${Env.API_URL}/api/${path}`, {
                 method: method,
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(params),
             });
@@ -54,7 +54,7 @@ export async function APICall(method, path, params) {
             const response = await request.json();
             return response;
         }
-    } catch(error) {
+    } catch (error) {
         console.log(error);
     }
 }

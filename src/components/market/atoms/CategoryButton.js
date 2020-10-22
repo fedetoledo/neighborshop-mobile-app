@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, ImageBackground} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import global from '../../../styles/global.css'
 
 function CategoryButton(props) {
     return (

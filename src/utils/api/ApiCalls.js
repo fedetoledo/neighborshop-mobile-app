@@ -1,11 +1,11 @@
-import {APICallWithCredentials} from "./APICall";
-import { getUserKey } from "../storage";
-import Env from "react-native-config";
+import {APICallWithCredentials} from './APICall';
+import { getUserKey } from '../storage';
+import Env from 'react-native-config';
 
 export const getUserFavourites = async id => {
     try {
         const favourites = await APICallWithCredentials('get', `favourites/?id=${id}`); // TODO Check path
-        console.log('Favourites json: ',favourites)
+        console.log('Favourites json: ',favourites);
         return favourites;
     } catch (error) {
         console.log('[API Call] Categories ', error);
@@ -14,23 +14,23 @@ export const getUserFavourites = async id => {
 
 export const fetchCategories = async () => {
     try {
-        const fetchCategories = await fetch(`${Env.API_URL}/api/categories`);
-        const categoriesJson = await fetchCategories.json();
+        const fetchCategoriesData = await fetch(`${Env.API_URL}/api/categories`);
+        const categoriesJson = await fetchCategoriesData.json();
         return categoriesJson;
-    } catch(error) {
+    } catch (error) {
         console.log('[Categories] Error: ', error);
     }
-}
+};
 
 export const getUserById = async () => {
     try {
         const userKey = await getUserKey();
-        console.log('Get user by id (key): ', userKey)
+        console.log('Get user by id (key): ', userKey);
         const user = await APICallWithCredentials('get', `users/${userKey.id}/`);
         return user;
     } catch (error) {
         console.log('[API Call] Error: ', error);
-        return {'error':'Error fetching user'}
+        return {'error':'Error fetching user'};
     }
 };
 
@@ -45,11 +45,10 @@ export const getUserToken = async (username, password) => {
         });
         const userJson = await fetchCredentials.json();
         return userJson;
-        
     } catch (error) {
         console.log('Error signIn action', error);
     }
-}
+};
 
 export const uploadUserPicture = async (new_image, user_id) => {
     try {
@@ -58,9 +57,10 @@ export const uploadUserPicture = async (new_image, user_id) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({image_data: new_image, user_id:user_id})
-        })
-    } catch(error) {
-        console.log(error)
+            body: JSON.stringify({image_data: new_image, user_id:user_id}),
+        });
+        return await uploadPicture.json();
+    } catch (error) {
+        console.log(error);
     }
-}
+};

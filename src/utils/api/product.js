@@ -1,6 +1,6 @@
 import Env from 'react-native-config';
 import { getUserKey } from '../storage';
-import {APICall} from './APICall'
+import {APICall} from './APICall';
 
 export const getProductInfo = async (product_id) => {
     try {
@@ -10,16 +10,16 @@ export const getProductInfo = async (product_id) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 export const checkProductRating = async (product_id) => {
     try {
-        const response = await APICall('post', `product/rating/${product_id}`, {})
+        const response = await APICall('post', `product/rating/${product_id}`, {});
         return response;
-    } catch(error) {
+    } catch (error) {
         console.log(error);
     }
-}
+};
 
 export const addProductRating = async (product_id, rating) => {
     try {
@@ -28,10 +28,10 @@ export const addProductRating = async (product_id, rating) => {
             product: product_id,
         });
         return response;
-    } catch(error) {
+    } catch (error) {
         console.log(error);
     }
-}
+};
 
 export const checkFavourite = async (product_id) => {
     try {
@@ -48,7 +48,7 @@ export const checkFavourite = async (product_id) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 export const toggleFavourite = async (product_id) => {
     try {
@@ -60,9 +60,9 @@ export const toggleFavourite = async (product_id) => {
             },
             body: JSON.stringify({user: user.id, product: product_id}),
         });
-        const response = await toggleFavouriteCall.json()
+        const response = await toggleFavouriteCall.json();
         return response;
     } catch (error) {
         console.log(error);
     }
-}
+};

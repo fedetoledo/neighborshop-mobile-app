@@ -17,7 +17,7 @@ function Signup() {
 
     const doSignup = () => {
         if (password !== password2) {
-            console.log('Passwords does not match!')
+            console.log('Passwords does not match!');
         } else {
             const data = {
                 firstName: firstName,
@@ -25,11 +25,10 @@ function Signup() {
                 username: username,
                 email: email,
                 password: password,
-            }
-            console.log(data)
+            };
             signUp(data);
         }
-    }
+    };
 
     return (
         <View style={[global.container, styles.wrapper]}>
@@ -45,10 +44,10 @@ function Signup() {
                     {/* <TextInput style={styles.input} onChangeText={text => setTelefono(text)} placeholder="Telefono" /> */}
                 </View>
                 <View style={styles.buttons}>
-                    <Button 
-                        onPress={() => {doSignup();}} 
-                        color="#81d4fa" 
-                        style={styles.button} 
+                    <Button
+                        onPress={() => {doSignup();}}
+                        color="#81d4fa"
+                        style={styles.button}
                         title="Registrarse"/>
                 </View>
             </ScrollView>

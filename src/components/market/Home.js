@@ -5,13 +5,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 import FeatureSlideShow from '../../components/market/molecules/FeatureSlideShow';
 import CategoryButton from '../../components/market/atoms/CategoryButton';
 import SearchButton from '../../components/market/atoms/SearchButton';
-import LinearGradient from 'react-native-linear-gradient';
-import { fetchCategories } from "../../utils/api/ApiCalls";
+import { fetchCategories } from '../../utils/api/ApiCalls';
+import { LoadingView } from '../utils';
 
 function Home({navigation}) {
 
     const [categories, setCategories] = React.useState([]);
     const [searchQuery, setSearchQuery] = React.useState('');
+    const [isLoading, setIsLoading] = React.useState(true);
 
     const premiumProducts = [
         {
@@ -30,15 +31,22 @@ function Home({navigation}) {
 
     useEffect(() => {
         async function getCategories() {
-            const categoriesResponse = await fetchCategories();
-            categoriesResponse !== undefined ?
-                setCategories(categoriesResponse)
-            : {};
+            try {
+                setIsLoading(true);
+                const categoriesResponse = await fetchCategories();
+                categoriesResponse !== undefined ?
+                    setCategories(categoriesResponse)
+                : {};
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error);
+            }
         }
         getCategories();
     }, []);
 
     return (
+    !isLoading ?
         <>
         <SafeAreaView style={global.safeArea}/>
             <View style={styles.searchBarContainer}>
@@ -52,7 +60,7 @@ function Home({navigation}) {
                     }} />
                 </View>
             </View>
-            <ScrollView 
+            <ScrollView
                 style={global.container}
                 showsVerticalScrollIndicator={false}>
                 <FeatureSlideShow
@@ -79,6 +87,7 @@ function Home({navigation}) {
                 </View>
             </ScrollView>
             </>
+        : <LoadingView />
     );
 }
 
@@ -115,7 +124,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'flex-start',
-        justifyContent: "space-between",
+        justifyContent: 'space-between',
     },
     picture: {
         width: 100,

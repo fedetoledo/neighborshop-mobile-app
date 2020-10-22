@@ -26,10 +26,10 @@ function FavouriteButton(props) {
     return (
         <TouchableOpacity onPress={() => {props.onPress(); toggleHeart();}}
         >
-            <MaterialCommunityIcons 
-                style={styles.icon} 
-                name={iconName} 
-                size={30} 
+            <MaterialCommunityIcons
+                style={styles.icon}
+                name={iconName}
+                size={30}
                 color="#f40000" />
         </TouchableOpacity>
     );

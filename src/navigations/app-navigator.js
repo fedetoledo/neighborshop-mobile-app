@@ -7,7 +7,7 @@ import HomeScreen from '../components/market/Home';
 import CategoryScreen from '../components/market/Category';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProductDetail from '../components/market/ProductDetail';
-import SearchButton from '../components/market/atoms/SearchButton';
+import ModifyProfile from '../components/profile/ModifyProfile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -23,7 +23,7 @@ function HomeNavigator() {
                 ({route}) => ({
                     title: route.params.name,
                     headerTitleAlign: 'center',
-                    headerRight: () => (<SearchButton/>),
+                    // headerRight: () => (<SearchButton/>),
                 })
             }
           />
@@ -57,10 +57,29 @@ function FavouritesNavigator() {
     );
 }
 
+function ProfileNavigator() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Profile" component={ProfileScreen}
+                options={{headerShown: false}}
+            />
+            <Stack.Screen name="ModifyProfile" component={ModifyProfile}
+                options={{
+                    title: 'Modificar Perfil',
+                    headerBackTitle: 'Perfil',
+                }}
+            />
+        </Stack.Navigator>
+    );
+}
+
 export default function AppNavigator() {
     return (
         <Tab.Navigator
             initialRouteName="Home"
+            tabBarOptions={{
+                activeTintColor: '#517fa4',
+            }}
         >
             <Tab.Screen
                 options= {{
@@ -87,7 +106,7 @@ export default function AppNavigator() {
                         <MaterialCommunityIcons name="account" color={color} size={size} />
                     ),
                 }}
-                name="Profile" component={ProfileScreen} />
+                name="Profile" component={ProfileNavigator} />
         </Tab.Navigator>
     );
 }

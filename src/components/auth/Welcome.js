@@ -1,8 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, SafeAreaView} from 'react-native';
-import global from '../../styles/global.css';
 import LinearGradient from 'react-native-linear-gradient';
-import {Button} from "../utils";
+import {Button} from '../utils';
 
 export default function Welcome({navigation}) {
     return (
@@ -32,19 +31,19 @@ export default function Welcome({navigation}) {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        justifyContent: "space-evenly",
-        alignItems: "center",
-        
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+
     },
     welcomeText: {
-        flex: .2,
+        flex: 0.2,
         // color: '#454542',
         color: '#fff',
         fontSize: 40,
         fontWeight: '700',
     },
     buttons: {
-        flex: .3,
+        flex: 0.3,
         width: '100%',
         paddingHorizontal: 10,
     },

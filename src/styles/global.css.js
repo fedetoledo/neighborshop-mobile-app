@@ -2,9 +2,10 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
     safeArea: {
-        backgroundColor: '#f5f1da'
+        backgroundColor: '#f5f1da',
     },
     container: {
+        flex: 1,
         paddingHorizontal: 10,
         backgroundColor: '#f5f1da',
     },
@@ -12,6 +13,7 @@ export default StyleSheet.create({
         backgroundColor: '#00b0f9',
     },
     textInput: {
+        width: '100%',
         borderRadius: 4,
         padding: 10,
         marginVertical: 10,
@@ -27,13 +29,13 @@ export default StyleSheet.create({
         borderBottomWidth: 0.75,
     },
     errorContainer: {
-        display: 'flex',
-        alignItems: "center",
-        justifyContent: "center"
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     errorText: {
         fontSize: 20,
-        color: '#999'
+        color: '#999',
     },
     outerShadow: {
         elevation: 3,
@@ -43,7 +45,7 @@ export default StyleSheet.create({
         shadowRadius: 2,
     },
     linkText: {
-        textDecorationLine: "underline",
-        fontWeight: '600'
-    }
+        textDecorationLine: 'underline',
+        fontWeight: '600',
+    },
 });
